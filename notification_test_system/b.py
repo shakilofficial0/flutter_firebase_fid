@@ -8,7 +8,7 @@ from firebase_admin import credentials, messaging
 cred = credentials.Certificate("./development.json")
 
 app_options = {
-    "projectId": "shobarkhamar-01-dev",
+    "projectId": "<demo_data>",
 }
 
 firebase_admin.initialize_app(
