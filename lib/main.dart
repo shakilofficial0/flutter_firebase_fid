@@ -1,6 +1,20 @@
+import 'package:firebase_app_installations/firebase_app_installations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final settings = await FirebaseMessaging.instance.requestPermission();
+  debugPrint('Notification permission: ${settings.authorizationStatus}');
+
+  final fid = await FirebaseInstallations.instance.getId();
+  debugPrint('Firebase Installation ID: $fid');
+
   runApp(const MyApp());
 }
 
@@ -55,6 +69,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String? _fid;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseInstallations.instance.getId().then((id) {
+      if (mounted) setState(() => _fid = id);
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -108,6 +131,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 24),
+            const Text('Firebase Installation ID:'),
+            SelectableText(
+              _fid ?? 'Loading...',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
         ),
