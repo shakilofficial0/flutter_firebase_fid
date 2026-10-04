@@ -102,6 +102,10 @@ Add these keys inside the top-level `<dict>`:
 - `FirebaseMessagingInstallationIdEnabled`: enables FID-based targeting on iOS.
 - `UIBackgroundModes` → `remote-notification`: lets the app receive background pushes.
 
+These three keys are already applied in this repo's [Info.plist](ios/Runner/Info.plist).
+
+> iOS needs **no** `NSUserNotificationsUsageDescription`-style key for notifications. The permission prompt comes from `requestPermission()` at runtime, and the *Push Notifications* capability (4.3) adds the `aps-environment` entitlement automatically.
+
 ### 4.3 Enable capabilities in Xcode
 
 1. Open `ios/Runner.xcworkspace`.

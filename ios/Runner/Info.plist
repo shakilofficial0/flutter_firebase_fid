@@ -70,5 +70,13 @@
 	<true/>
 	<key>FirebaseMessagingInstallationIdEnabled</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>We use notifications to keep you informed about important updates.</string>
+
 </dict>
 </plist>
