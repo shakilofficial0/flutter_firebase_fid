@@ -17,7 +17,7 @@ firebase_admin.initialize_app(
 )
 
 
-FIREBASE_INSTALLATION_ID = "dWpi1LboQ8ugOozHpHIgoj" # demo fid
+FIREBASE_INSTALLATION_ID = "fuJBoiIITvyVBJITlSg7Qa" # demo fid
 
 
 async def send_multicast(fids: list[str]):
