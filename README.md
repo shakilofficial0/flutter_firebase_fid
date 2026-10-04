@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/header.svg" alt="FID Push – Firebase Installation ID notifications" width="100%">
+  <img src="docs/header.svg" alt="Flutter Firebase FID Push Notification" width="100%">
 </p>
 
-# FID Push
+# Flutter Firebase FID Push Notification
 
 A Flutter demo that sends push notifications to a device using its **Firebase Installation ID (FID)** instead of an FCM registration token. Includes a Python (`firebase_admin`) script to send test notifications.
 
@@ -214,3 +214,20 @@ android/  ios/                Platform projects
 docs/header.svg               README header image
 notification_test_system/     Python sender (firebase_admin)
 ```
+
+## Why FID instead of an FCM token?
+
+| | FCM registration token | Firebase Installation ID (FID) |
+| --- | --- | --- |
+| Length | ~150–170 characters | 22 characters |
+| Availability | Needs a round trip to FCM; on iOS also waits for the APNs token | Available right after `Firebase.initializeApp`, no APNs wait |
+| Rotation | Can rotate (restore, data clear, long inactivity), so apps need `onTokenRefresh` handling and server re-sync | Stable for the lifetime of the installation, so far fewer updates to store |
+| Storage and logs | Long, awkward to store, copy and debug | Short and easy to read, copy and compare |
+| Role | Delivery address that can change | Identifier of the app install, the same one Firebase uses internally |
+| Server targeting | `token=` | `fids=` (needs `firebase-admin` 7.7.0+) |
+
+Things to keep in mind:
+
+- A FID is still tied to one installation. Uninstalling, or clearing app data, creates a new one, so a stale FID returns an error you should handle by dropping it.
+- Treat the FID as an identifier, not a secret, but don't expose it publicly.
+- FID messaging is newer than token messaging. Check your Firebase SDK versions (see Requirements) before relying on it in production.
