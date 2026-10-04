@@ -1,0 +1,2 @@
+firebase-admin==7.7.0
+asyncio==4.0.0
